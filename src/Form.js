@@ -86,7 +86,7 @@ class Form {
    * @param  {string} url
    * @return {Promise}
    */
-  submit(url, dataType = 'form_data') {
+  submit(url, dataType = 'form-data') {
     let supportedMethods = ['post', 'put', 'patch'];
 
     if (supportedMethods.indexOf(this.method.toLowerCase()) == -1) {

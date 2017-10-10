@@ -8,7 +8,14 @@ class RequestDataContainer {
    */
   constructor(type) {
     this.type = type;
-    this.data = type == 'json' ? {} : (new FormData());
+
+    if (this.type == 'json') {
+      this.data = {};
+    } else if (this.type == 'form-data') {
+      this.data = new FormData();
+    } else {
+      this.data = null;
+    }
   }
 
   /**

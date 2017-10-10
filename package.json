@@ -1,6 +1,6 @@
 {
-  "name": "form-js",
-  "version": "0.1.0",
+  "name": "laravel-form-js",
+  "version": "1.0.1",
   "description": "A javascript representation of a form",
   "main": "dist/Form.js",
   "scripts": {
