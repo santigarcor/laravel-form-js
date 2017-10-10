@@ -5,7 +5,8 @@
   "main": "dist/Form.js",
   "scripts": {
     "test": "node ./node_modules/jest/bin/jest",
-    "build": "node ./node_modules/babel-cli/bin/babel src --out-dir dist"
+    "build": "node ./node_modules/babel-cli/bin/babel src --out-dir dist",
+    "preversion": "npm test"
   },
   "repository": {
     "type": "git",

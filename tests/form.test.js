@@ -1,7 +1,6 @@
 let Form = require('../src/Form');
 let moxios = require('moxios');
 
-
 test('can create a form with data, method (optional) and clearAfterResponse (optional)', () => {
   let form = Form.makeFrom({name: 'test'}, 'post', false);
 
@@ -62,21 +61,35 @@ test('it retrieves the form data as a FormData', () => {
 });
 
 test('can submit the form and use promises to receive the results', () => {
-  moxios.install();
-  let form = Form.makeFrom({name: 'test', email: 'test@mail.com'});
-
-  form.submit('theurl')
-    .then(response => {
-      console.log(response);
-      expect(response.data).toEqual('correct');
-    });
+  let form = Form.makeFrom({name: 'test', email: 'test@mail.com'}, 'post');
+  moxios.install(form.axios);
 
   moxios.wait(function () {
-    let request = moxios.requests.mostRecent()
-    request.respondWith({
+    moxios.requests.mostRecent().respondWith({
       status: 200,
-      data: "correct"
-    })
-  })
-  moxios.uninstall();
+      response: 'done'
+    });
+  });
+
+  return form.submit('url').then(response => {
+    expect(response.data).toBe("done");
+    moxios.uninstall(form.axios);
+  });
+});
+
+test('can submit the form and use promises to receive the validation errors', () => {
+  let form = Form.makeFrom({name: 'test', email: 'test@mail.com'}, 'post');
+  moxios.install(form.axios);
+
+  moxios.wait(function () {
+    moxios.requests.mostRecent().respondWith({
+      status: 422,
+      response: { errors: { name: ['failed'] } }
+    });
+  });
+
+  return form.submit('url').catch(error => {
+    expect(form.errorsFor('name')).toBe("failed");
+    moxios.uninstall(form.axios);
+  });
 });

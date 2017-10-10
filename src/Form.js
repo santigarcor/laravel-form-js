@@ -1,10 +1,6 @@
 let FormErrors = require('./FormErrors');
 let RequestDataContainer = require('./RequestDataContainer');
 
-if (window.axios == 'undefined') {
-  let axios = require('axios');
-}
-
 /**
 * this class handles everything that concerns
 * about forms. Submit and errors and considered too
@@ -25,6 +21,12 @@ class Form {
     this.method = method;
     this.clearAfterResponse = clearAfterResponse;
     this.errors = new FormErrors();
+
+    if (window.axios == undefined) {
+      this.axios = require('axios');
+    } else {
+      this.axios = window.axios;
+    }
   }
 
   static makeFrom(data, method = 'post', clearAfterResponse = false) {
@@ -52,10 +54,6 @@ class Form {
 
     for (let field in this.originalData) {
       container.set(field, this[field]);
-    }
-
-    if (this.method != 'post') {
-      container.set('_method', this.method);
     }
 
     return container.data;
@@ -89,8 +87,14 @@ class Form {
    * @return {Promise}
    */
   submit(url, dataType = 'form_data') {
+    let supportedMethods = ['post', 'put', 'patch'];
+
+    if (supportedMethods.indexOf(this.method.toLowerCase()) == -1) {
+      throw new Error('Unssuported method');
+    }
+
     return new Promise((resolve, reject) => {
-      axios.post(url, this.data(dataType))
+      this.axios[this.method](url, this.data(dataType))
         .then(response => {
           this.formSubmitSucceded(response);
           resolve(response);
