@@ -45,19 +45,18 @@ test('can retrieve the errors for a specific field', () => {
 
 
 test('it retrieves the form data as a json', () => {
-  let form = Form.makeFrom({name: 'test', email: 'test@mail.com'});
+  let form = Form.makeFrom({name: 'test', email: 'test@mail.com'}, 'put');
 
-  expect(form.data('json')).toEqual({name: 'test', email: 'test@mail.com'});
+  expect(form.data('json')).toEqual({name: 'test', email: 'test@mail.com', _method: 'put'});
 });
 
 test('it retrieves the form data as a FormData', () => {
-  let form = Form.makeFrom({name: 'test', email: 'test@mail.com'});
+  let form = Form.makeFrom({name: 'test', email: 'test@mail.com'}, 'patch');
 
-  let data = new FormData();
-  data.append('name', 'test');
-  data.append('email', 'test@mail.com');
-
-  expect(form.data('form-data')).toEqual(data);
+  let data = form.data('form-data');
+  expect(data.get('name') == form.name).toBeTruthy();
+  expect(data.get('email') == form.email).toBeTruthy();
+  expect(data.get('_method') == form.method).toBeTruthy();
 });
 
 test('can submit the form and use promises to receive the results', () => {

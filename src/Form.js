@@ -56,6 +56,10 @@ class Form {
       container.set(field, this[field]);
     }
 
+    if (this.method != 'post') {
+      container.set('_method', this.method);
+    }
+
     return container.data;
   }
 
@@ -94,7 +98,7 @@ class Form {
     }
 
     return new Promise((resolve, reject) => {
-      this.axios[this.method](url, this.data(dataType))
+      this.axios.post(url, this.data(dataType))
         .then(response => {
           this.formSubmitSucceded(response);
           resolve(response);
