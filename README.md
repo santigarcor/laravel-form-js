@@ -1,5 +1,10 @@
 # Laravel Form Javascript Object
 
+[![Build Status](https://travis-ci.org/santigarcor/laravel-form-js.svg?branch=master)](https://travis-ci.org/santigarcor/laravel-form-js)
+[![npm](https://img.shields.io/npm/v/laravel-form-js.svg)](https://www.npmjs.com/package/laravel-form-js)
+[![npm](https://img.shields.io/npm/dt/laravel-form-js.svg)](https://www.npmjs.com/package/laravel-form-js)
+[![license](https://img.shields.io/github/license/santigarcor/laravel-form-js.svg)](https://www.npmjs.com/package/laravel-form-js)
+
 This is a package for handling forms using an object oriented approach.
 
 ## Installation
