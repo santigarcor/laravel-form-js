@@ -28,6 +28,15 @@ test('can reset the form data to its original data state', () => {
   expect(form.name).toBe('test');
 });
 
+test('if the original data has an object it doesnt change the original data', () => {
+  let form = Form.makeFrom({name: {text: 'name'}});
+  form.name.text = 'new name';
+  expect(form.name).toEqual({text: 'new name'});
+  expect(form.originalData.name).toEqual({text: 'name'});
+  form.reset();
+  expect(form.name).toEqual({text: 'name'});
+});
+
 test('can change the form http method', () => {
   let form = Form.makeFrom({name: 'test'});
   form.name = 'new name';

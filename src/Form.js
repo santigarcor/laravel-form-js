@@ -17,7 +17,7 @@ class Form {
    */
   constructor(data, method = 'post', clearAfterResponse = false) {
     this.originalData = data;
-    Object.assign(this, data);
+    Object.assign(this, JSON.parse(JSON.stringify(data)));
     this.method = method;
     this.clearAfterResponse = clearAfterResponse;
     this.errors = new FormErrors();
@@ -39,7 +39,7 @@ class Form {
    * @return {void}
    */
   reset() {
-    Object.assign(this, this.originalData);
+    Object.assign(this, JSON.parse(JSON.stringify(this.originalData)));
     this.errors.clear();
   }
 
